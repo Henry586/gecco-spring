@@ -1,5 +1,7 @@
 package com.geccocrawler.gecco.spring;
 
+import java.util.List;
+
 import com.geccocrawler.gecco.annotation.Gecco;
 import com.geccocrawler.gecco.annotation.Href;
 import com.geccocrawler.gecco.annotation.HtmlField;
@@ -9,7 +11,13 @@ import com.geccocrawler.gecco.annotation.Text;
 import com.geccocrawler.gecco.request.HttpRequest;
 import com.geccocrawler.gecco.spider.HtmlBean;
 
-@Gecco(matchUrl="https://github.com/{user}/{project}", pipelines="consolePipeline")
+/**
+ * 注意用户登录和未登陆的界面是不一样的，所以某些数据可能无法取得
+ * @author haifeng.li
+ * @date 2021/11/26
+ *
+ */
+@Gecco(matchUrl="https://github.com/{user}/{project}", pipelines="consolePipeline1")
 public class MyGithub implements HtmlBean {
 
 	private static final long serialVersionUID = -7127412585200687225L;
@@ -27,13 +35,21 @@ public class MyGithub implements HtmlBean {
 	@HtmlField(cssPath=".repository-meta-content")
 	private String title;
 	
+	//可以取得所有的对象，用于debug
+	@HtmlField(cssPath="*")
+	private List<Object> all;
+
+	//未登陆的话，是没有这个数据的，所以无法取得
+	@HtmlField(cssPath=".pagehead-actions li:nth-child(1) .social-count")
+	private String watch;
+
 	@Text
 	@HtmlField(cssPath=".pagehead-actions li:nth-child(2) .social-count")
-	private int star;
+	private String star;
 	
 	@Text
 	@HtmlField(cssPath=".pagehead-actions li:nth-child(3) .social-count")
-	private int fork;
+	private String fork;
 
 	@Href(click=false)
 	@HtmlField(cssPath="ul.numbers-summary > li:nth-child(4) > a")
@@ -82,19 +98,27 @@ public class MyGithub implements HtmlBean {
 		this.title = title;
 	}
 
-	public int getStar() {
+	public String getWatch() {
+		return watch;
+	}
+
+	public void setWatch(String watch) {
+		this.watch = watch;
+	}
+
+	public String getStar() {
 		return star;
 	}
 
-	public void setStar(int star) {
+	public void setStar(String star) {
 		this.star = star;
 	}
 
-	public int getFork() {
+	public String getFork() {
 		return fork;
 	}
 
-	public void setFork(int fork) {
+	public void setFork(String fork) {
 		this.fork = fork;
 	}
 	
@@ -104,6 +128,14 @@ public class MyGithub implements HtmlBean {
 
 	public void setContributors(String contributors) {
 		this.contributors = contributors;
+	}
+
+	public List<Object> getAll() {
+		return all;
+	}
+
+	public void setAll(List<Object> all) {
+		this.all = all;
 	}
 
 }

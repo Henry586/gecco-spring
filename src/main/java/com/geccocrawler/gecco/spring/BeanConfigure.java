@@ -15,4 +15,9 @@ public class BeanConfigure {
 	public ConsolePipeline consolePipeline() {
 		return new ConsolePipeline();
 	}
+	
+	@Bean(name="consolePipeline1")
+	public ConsolePipeline1 consolePipeline1() {
+		return new ConsolePipeline1();
+	}
 }

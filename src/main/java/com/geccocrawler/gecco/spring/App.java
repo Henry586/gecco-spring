@@ -21,13 +21,17 @@ public class App {
 				.classpath("com.geccocrawler.gecco.spring")
 				.start("https://github.com/xtuhcy/gecco")
 				.interval(3000)
-				.loop(true)
+				.loop(false)
 				.start();
 			}
 		};
 	}
 	
-	public static void main(String[] args) throws Exception {
+	/**
+	 * Quick test for Gecco Spring
+	 * @param args
+	 */
+	public static void main(String[] args)  {
 		SpringApplication.run(App.class, args);
 	}
 	
